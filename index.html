@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Transformer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Voice Transformer</h1>
+        
+        <div class="voice-selector">
+            <h2>Select TTS Voice</h2>
+            <select id="voice-select">
+                <option value="">Loading voices...</option>
+            </select>
+            <button id="test-voice">Test Voice</button>
+        </div>
+        
+        <div class="recording-section">
+            <h2>Record Your Voice</h2>
+            <div class="controls">
+                <button id="start-recording" class="primary-btn">Start Recording</button>
+                <button id="stop-recording" class="primary-btn" disabled>Stop Recording</button>
+            </div>
+            
+            <div class="status">
+                <div id="status-indicator"></div>
+                <span id="status-text">Not recording</span>
+            </div>
+        </div>
+        
+        <div class="output-section">
+            <h2>Output</h2>
+            <div id="recognized-text" class="text-box">
+                <p>Your speech will appear here...</p>
+            </div>
+            <div class="audio-playback">
+                <h3>TTS Playback</h3>
+                <div id="audio-container"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"4c6229722a6346bc8eb5cb0e5eae5d41","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+
