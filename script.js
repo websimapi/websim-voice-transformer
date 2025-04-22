@@ -5,6 +5,8 @@ let mediaRecorder = null;
 let audioChunks = [];
 let isRecording = false;
 let recognition = null;
+let lastSpeakTime = 0;
+let currentUtterance = null;
 
 // Initialize speech recognition
 function initSpeechRecognition() {
@@ -28,9 +30,11 @@ function initSpeechRecognition() {
         
         document.getElementById('recognized-text').innerHTML = `<p>${recognizedText}</p>`;
         
-        // For complete sentences, speak using TTS
-        if (results[results.length - 1].isFinal) {
+        // Speak in real-time with debouncing to prevent choppy audio
+        const now = Date.now();
+        if (now - lastSpeakTime > 300) { // Debounce for 300ms
             speakWithTTS(recognizedText);
+            lastSpeakTime = now;
         }
     };
     
@@ -63,13 +67,32 @@ function loadVoices() {
 
 // Speak text using the selected TTS voice
 function speakWithTTS(text) {
-    if (!selectedVoice) return;
+    if (!selectedVoice || !text.trim()) return;
+    
+    // Cancel any ongoing speech to avoid overlapping
+    speechSynthesis.cancel();
     
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.voice = selectedVoice;
     utterance.pitch = 1;
     utterance.rate = 1;
     utterance.volume = 1;
+    
+    // Store the current utterance reference
+    currentUtterance = utterance;
+    
+    // Update status to show when TTS is active
+    const statusElement = document.getElementById('tts-status');
+    if (statusElement) {
+        statusElement.classList.add('speaking');
+    }
+    
+    utterance.onend = () => {
+        if (statusElement) {
+            statusElement.classList.remove('speaking');
+        }
+        currentUtterance = null;
+    };
     
     speechSynthesis.speak(utterance);
 }
@@ -123,6 +146,9 @@ function stopRecording() {
         recognition.stop();
     }
     
+    // Cancel any ongoing TTS
+    speechSynthesis.cancel();
+    
     // Close media tracks
     mediaRecorder.stream.getTracks().forEach(track => track.stop());
 }
@@ -153,4 +179,3 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('start-recording').addEventListener('click', startRecording);
     document.getElementById('stop-recording').addEventListener('click', stopRecording);
 });
-

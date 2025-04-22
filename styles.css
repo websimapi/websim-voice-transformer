@@ -87,6 +87,25 @@ button {
     margin-bottom: 1rem;
 }
 
+.tts-status-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+#tts-status {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #bdc3c7;
+}
+
+#tts-status.speaking {
+    background-color: #2ecc71;
+    animation: pulse 1.5s infinite;
+}
+
 .status {
     display: flex;
     align-items: center;
@@ -134,4 +153,3 @@ button {
     padding-top: 1rem;
     border-top: 1px solid #eee;
 }
-
